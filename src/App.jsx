@@ -52,6 +52,11 @@ export default function App() {
                 )
               );
             }}
+            onHapus={() => {
+              setTodos((prev) =>
+                prev.filter((todo, todoIndex) => todoIndex !== index)
+              );
+            }}
           />
         ))}
       </div>
