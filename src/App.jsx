@@ -51,6 +51,7 @@ export default function App() {
       title: todo,
       completed: false,
     });
+    getTodos();
   };
   const getTodos = async () => {
     const response = await axios.get("http://localhost:3000/todos");
