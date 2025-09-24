@@ -29,23 +29,31 @@ export default function App() {
       setTodoSelected(undefined);
       return;
     } else {
-      setTodos((prev) =>
-        prev.concat([
-          {
-            title: todo,
-            completed: false,
-          },
-        ])
-      );
+      // setTodos((prev) =>
+      //   prev.concat([
+      //     {
+      //       title: todo,
+      //       completed: false,
+      //     },
+      //   ])
+      // );
+
+      handleAdd();
     }
 
     setTodo("");
   };
 
+  const handleAdd = async () => {
+    const response = await axios.post(`http://localhost:3000/todos`, {
+      userId: 1,
+      id: todos.length + 1,
+      title: todo,
+      completed: false,
+    });
+  };
   const getTodos = async () => {
-    const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/todos"
-    );
+    const response = await axios.get("http://localhost:3000/todos");
     setTodos(response.data);
   };
 
@@ -79,9 +87,10 @@ export default function App() {
               );
             }}
             onHapus={() => {
-              setTodos((prev) =>
-                prev.filter((todo, todoIndex) => todoIndex !== index)
-              );
+              // setTodos((prev) =>
+              //   prev.filter((todo, todoIndex) => todoIndex !== index)
+              // );
+              handleDelete(item.id);
             }}
             onEdit={() => {
               setTodoSelected({
