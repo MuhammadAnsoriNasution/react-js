@@ -26,6 +26,7 @@ export default function App() {
     );
     setTodo("");
   };
+  console.log(todos);
   return (
     <div className=" min-h-screen flex justify-center items-center flex-col gap-5">
       <form className=" flex flex-col gap-5" onSubmit={handleSubmit}>
@@ -41,8 +42,17 @@ export default function App() {
       </form>
 
       <div className=" flex flex-col gap-4 w-[400px] shadow rounded-md p-2">
-        {todos.map((item) => (
-          <Todo {...item} />
+        {todos.map((item, index) => (
+          <Todo
+            {...item}
+            toogleTodo={(status) => {
+              setTodos((prev) =>
+                prev.map((todo, todoIndex) =>
+                  todoIndex === index ? { ...todo, isComplete: status } : todo
+                )
+              );
+            }}
+          />
         ))}
       </div>
     </div>
