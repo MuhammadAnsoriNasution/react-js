@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "./components/Input";
 import Label from "./components/Labels";
 import Button from "./components/Button";
 import Todo from "./components/Todo";
+import axios from "axios";
 
 export default function App() {
   const [todos, setTodos] = useState([
     {
-      title: "Mandi",
-      isComplete: false,
+      userId: 1,
+      id: 1,
+      title: "delectus aut autem",
+      completed: false,
     },
   ]);
 
@@ -30,7 +33,7 @@ export default function App() {
         prev.concat([
           {
             title: todo,
-            isComplete: false,
+            completed: false,
           },
         ])
       );
@@ -39,7 +42,17 @@ export default function App() {
     setTodo("");
   };
 
-  console.log(todos);
+  const getTodos = async () => {
+    const response = await axios.get(
+      "https://jsonplaceholder.typicode.com/todos"
+    );
+    setTodos(response.data);
+  };
+
+  useEffect(() => {
+    getTodos();
+  }, []);
+
   return (
     <div className=" min-h-screen flex justify-center items-center flex-col gap-5">
       <form className=" flex flex-col gap-5" onSubmit={handleSubmit}>
@@ -61,7 +74,7 @@ export default function App() {
             toogleTodo={(status) => {
               setTodos((prev) =>
                 prev.map((todo, todoIndex) =>
-                  todoIndex === index ? { ...todo, isComplete: status } : todo
+                  todoIndex === index ? { ...todo, completed: status } : todo
                 )
               );
             }}

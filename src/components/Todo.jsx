@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Todo({
   title,
-  isComplete,
+  completed,
   toogleTodo,
   onHapus,
   onEdit,
@@ -12,7 +12,7 @@ export default function Todo({
       <div className=" flex flex-row items-center gap-1">
         <input
           type="checkbox"
-          checked={isComplete}
+          checked={completed}
           onChange={(e) => toogleTodo(e.target.checked)}
         />
         <p>{title}</p>
