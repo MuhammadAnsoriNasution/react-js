@@ -13,19 +13,32 @@ export default function App() {
   ]);
 
   const [todo, setTodo] = useState("");
+  const [todoSelected, setTodoSelected] = useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTodos((prev) =>
-      prev.concat([
-        {
-          title: todo,
-          isComplete: false,
-        },
-      ])
-    );
+    if (todoSelected !== undefined) {
+      setTodos((prev) =>
+        prev.map((todoP, todoIndex) =>
+          todoIndex === todoSelected.index ? { ...todoP, title: todo } : todoP
+        )
+      );
+      setTodoSelected(undefined);
+      return;
+    } else {
+      setTodos((prev) =>
+        prev.concat([
+          {
+            title: todo,
+            isComplete: false,
+          },
+        ])
+      );
+    }
+
     setTodo("");
   };
+
   console.log(todos);
   return (
     <div className=" min-h-screen flex justify-center items-center flex-col gap-5">
@@ -56,6 +69,13 @@ export default function App() {
               setTodos((prev) =>
                 prev.filter((todo, todoIndex) => todoIndex !== index)
               );
+            }}
+            onEdit={() => {
+              setTodoSelected({
+                index,
+                todo,
+              });
+              setTodo(item.title);
             }}
           />
         ))}
